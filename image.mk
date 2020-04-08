@@ -308,24 +308,24 @@ endef
 
 E2SIZE=$(shell echo $$(($(CONFIG_TARGET_ROOTFS_PARTSIZE)*1024*1024)))
 
-ifneq ($(CONFIG_USE_SELINUX),)
+#ifneq ($(CONFIG_USE_SELINUX),)
 define Image/mkfs/ext4
 	dd if=/dev/zero of=$(KDIR)/root.ext4 count=$(CONFIG_TARGET_ROOTFS_PARTSIZE) bs=1M
 	$(STAGING_DIR_HOST)/bin/mkfs.ext4 -b $(CONFIG_TARGET_EXT4_BLOCKSIZE) $(KDIR)/root.ext4 -d $(TARGET_DIR)/
-	$(STAGING_DIR_HOST)/bin/e2fsdroid -S $(FILE_CONTEXTS) -e -a / $(KDIR)/root.ext4
+#	$(STAGING_DIR_HOST)/bin/e2fsdroid -S $(FILE_CONTEXTS) -e -a / $(KDIR)/root.ext4
 	$(STAGING_DIR_HOST)/bin/fsck.ext4 -pvfD $(KDIR)/root.ext4
 endef
-else
-define Image/mkfs/ext4
-	$(STAGING_DIR_HOST)/bin/make_ext4fs \
-		-l $(E2SIZE) -b $(CONFIG_TARGET_EXT4_BLOCKSIZE) \
-		-i $(CONFIG_TARGET_EXT4_MAXINODE) \
-		-m $(CONFIG_TARGET_EXT4_RESERVED_PCT) \
-		$(if $(CONFIG_TARGET_EXT4_JOURNAL),,-J) \
-		$(if $(SOURCE_DATE_EPOCH),-T $(SOURCE_DATE_EPOCH)) \
-		$(KDIR)/root.ext4 $(TARGET_DIR)/
-endef
-endif
+#else
+#define Image/mkfs/ext4
+#	$(STAGING_DIR_HOST)/bin/make_ext4fs \
+#		-l $(E2SIZE) -b $(CONFIG_TARGET_EXT4_BLOCKSIZE) \
+#		-i $(CONFIG_TARGET_EXT4_MAXINODE) \
+#		-m $(CONFIG_TARGET_EXT4_RESERVED_PCT) \
+#		$(if $(CONFIG_TARGET_EXT4_JOURNAL),,-J) \
+#		$(if $(SOURCE_DATE_EPOCH),-T $(SOURCE_DATE_EPOCH)) \
+#		$(KDIR)/root.ext4 $(TARGET_DIR)/
+#endef
+#endif
 
 define Image/mkfs/prepare/default
 	# Use symbolic permissions to avoid clobbering SUID/SGID/sticky bits
