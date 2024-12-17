@@ -1,6 +1,7 @@
 #
 # Copyright (C) 2006-2010 OpenWrt.org
 # Copyright (C) 2016-2016 tracewong
+# Copyright (C) 2024-2025 Sundew
 #
 # This is free software, licensed under the GNU General Public License v2.
 # See /LICENSE for more information.
